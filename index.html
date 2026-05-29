@@ -1,0 +1,892 @@
+
+html
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WaizX — Muhammad Waiz Khan | Full Stack Developer</title>
+<meta name="description" content="Muhammad Waiz Khan — Full Stack Developer, Software Engineer, React & Node.js Expert. Building the future one commit at a time.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@300;400;500&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+--neon-blue:#00f5c4;
+--neon-purple:#7b5cff;
+--neon-pink:#ff3c6e;
+--neon-green:#39ff14;
+--bg-black:#030712;
+--bg-deep:#050d1a;
+--bg-card:rgba(10,20,40,0.6);
+--border-glow:rgba(0,245,196,0.2);
+--border-purple:rgba(123,92,255,0.25);
+--text-primary:#f0f6ff;
+--text-muted:#6b8099;
+--font-head:'Syne',sans-serif;
+--font-body:'DM Sans',sans-serif;
+--font-mono:'JetBrains Mono',monospace;
+}
+html{scroll-behavior:smooth;overflow-x:hidden}
+body{background:var(--bg-black);color:var(--text-primary);font-family:var(--font-body);cursor:none;overflow-x:hidden}
+::selection{background:rgba(0,245,196,0.3);color:#fff}
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:var(--bg-black)}
+::-webkit-scrollbar-thumb{background:linear-gradient(var(--neon-blue),var(--neon-purple));border-radius:2px}
+
+#cursor{position:fixed;width:12px;height:12px;background:var(--neon-blue);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .15s,height .15s,background .15s;mix-blend-mode:screen}
+#cursor-ring{position:fixed;width:36px;height:36px;border:1px solid rgba(0,245,196,0.5);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:transform .08s linear,width .2s,height .2s,border-color .2s}
+body:has(a:hover) #cursor,body:has(button:hover) #cursor{width:6px;height:6px;background:var(--neon-purple)}
+body:has(a:hover) #cursor-ring,body:has(button:hover) #cursor-ring{width:52px;height:52px;border-color:rgba(123,92,255,0.6)}
+
+#scroll-progress{position:fixed;top:0;left:0;height:2px;background:linear-gradient(90deg,var(--neon-blue),var(--neon-purple),var(--neon-pink));z-index:10000;transition:width .1s}
+
+#loader{position:fixed;inset:0;background:var(--bg-black);z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px;transition:opacity .6s,visibility .6s}
+#loader.hidden{opacity:0;visibility:hidden}
+.loader-logo{font-family:var(--font-head);font-size:2.5rem;font-weight:800;background:linear-gradient(135deg,var(--neon-blue),var(--neon-purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:-.02em}
+.loader-bar-wrap{width:200px;height:2px;background:rgba(255,255,255,0.1);border-radius:1px;overflow:hidden}
+.loader-bar{height:100%;width:0;background:linear-gradient(90deg,var(--neon-blue),var(--neon-purple));border-radius:1px;animation:loadfill 2s ease forwards}
+.loader-text{font-family:var(--font-mono);font-size:.75rem;color:var(--text-muted);letter-spacing:.1em}
+@keyframes loadfill{to{width:100%}}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:20px 40px;display:flex;align-items:center;justify-content:space-between;backdrop-filter:blur(20px);background:rgba(3,7,18,0.7);border-bottom:1px solid var(--border-glow);transition:all .3s}
+.nav-logo{font-family:var(--font-head);font-weight:800;font-size:1.4rem;background:linear-gradient(135deg,var(--neon-blue),var(--neon-purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;text-decoration:none}
+.nav-links{display:flex;gap:36px;list-style:none}
+.nav-links a{font-family:var(--font-mono);font-size:.8rem;color:var(--text-muted);text-decoration:none;letter-spacing:.05em;transition:color .2s;position:relative}
+.nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;background:var(--neon-blue);transition:width .3s}
+.nav-links a:hover{color:var(--neon-blue)}
+.nav-links a:hover::after{width:100%}
+.nav-cta{font-family:var(--font-mono);font-size:.75rem;padding:8px 20px;border:1px solid var(--neon-blue);color:var(--neon-blue);border-radius:4px;text-decoration:none;transition:all .3s;letter-spacing:.05em}
+.nav-cta:hover{background:var(--neon-blue);color:var(--bg-black)}
+
+#hero{min-height:100vh;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;padding:120px 40px 60px}
+#particles-canvas{position:absolute;inset:0;z-index:0}
+.hero-grid-bg{position:absolute;inset:0;background-image:linear-gradient(rgba(0,245,196,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,245,196,0.04) 1px,transparent 1px);background-size:60px 60px;z-index:0}
+.hero-glow-1{position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(0,245,196,0.08) 0%,transparent 70%);top:-200px;left:-200px;z-index:0;animation:floatglow 8s ease-in-out infinite}
+.hero-glow-2{position:absolute;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(123,92,255,0.08) 0%,transparent 70%);bottom:-150px;right:-100px;z-index:0;animation:floatglow 10s ease-in-out infinite reverse}
+@keyframes floatglow{0%,100%{transform:translateY(0)}50%{transform:translateY(-30px)}}
+
+.hero-content{position:relative;z-index:1;max-width:900px;width:100%}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;font-family:var(--font-mono);font-size:.7rem;letter-spacing:.12em;color:var(--neon-blue);border:1px solid rgba(0,245,196,0.3);padding:6px 16px;border-radius:100px;margin-bottom:28px;animation:fadein .8s ease both}
+.hero-badge::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--neon-green);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.hero-name{font-family:var(--font-head);font-size:clamp(3rem,8vw,7rem);font-weight:800;line-height:.95;letter-spacing:-.04em;margin-bottom:16px;animation:fadein .8s .1s ease both}
+.hero-name span{background:linear-gradient(135deg,#fff 30%,var(--neon-blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-name .accent{background:linear-gradient(135deg,var(--neon-blue),var(--neon-purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-roles{font-family:var(--font-mono);font-size:clamp(1rem,2.5vw,1.4rem);color:var(--neon-blue);margin-bottom:24px;min-height:2.2em;animation:fadein .8s .2s ease both}
+.hero-tagline{font-size:1.05rem;color:var(--text-muted);max-width:520px;line-height:1.7;margin-bottom:44px;animation:fadein .8s .3s ease both}
+.hero-buttons{display:flex;flex-wrap:wrap;gap:14px;animation:fadein .8s .4s ease both}
+.btn-primary{padding:14px 32px;background:linear-gradient(135deg,var(--neon-blue),var(--neon-purple));color:#fff;font-family:var(--font-mono);font-size:.8rem;font-weight:500;letter-spacing:.06em;border:none;border-radius:6px;cursor:none;text-decoration:none;transition:all .3s;position:relative;overflow:hidden}
+.btn-primary::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.2),transparent);opacity:0;transition:opacity .3s}
+.btn-primary:hover::before{opacity:1}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,245,196,0.35)}
+.btn-outline{padding:14px 32px;background:transparent;color:var(--text-primary);font-family:var(--font-mono);font-size:.8rem;letter-spacing:.06em;border:1px solid rgba(255,255,255,0.15);border-radius:6px;cursor:none;text-decoration:none;transition:all .3s}
+.btn-outline:hover{border-color:var(--neon-blue);color:var(--neon-blue);transform:translateY(-2px)}
+.hero-avatar{position:absolute;right:0;top:50%;transform:translateY(-50%);width:340px;height:340px;animation:fadein .8s .5s ease both}
+.avatar-ring{width:100%;height:100%;border-radius:50%;border:1px solid rgba(0,245,196,0.2);display:flex;align-items:center;justify-content:center;position:relative;animation:spinring 20s linear infinite}
+.avatar-ring::before{content:'';position:absolute;inset:-2px;border-radius:50%;border:1px dashed rgba(123,92,255,0.2);animation:spinring 15s linear infinite reverse}
+@keyframes spinring{to{transform:rotate(360deg)}}
+.avatar-inner{width:260px;height:260px;border-radius:50%;background:linear-gradient(135deg,rgba(0,245,196,0.1),rgba(123,92,255,0.1));display:flex;align-items:center;justify-content:center;font-size:8rem;position:relative;overflow:hidden;border:1px solid rgba(0,245,196,0.15)}
+.avatar-inner::before{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 60%,rgba(0,245,196,0.1))}
+@keyframes fadein{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+
+.marquee-wrap{overflow:hidden;padding:20px 0;border-top:1px solid var(--border-glow);border-bottom:1px solid var(--border-glow);background:rgba(0,245,196,0.02)}
+.marquee-track{display:flex;gap:60px;animation:marquee 25s linear infinite;width:max-content}
+.marquee-item{display:flex;align-items:center;gap:12px;font-family:var(--font-mono);font-size:.8rem;color:var(--text-muted);white-space:nowrap;letter-spacing:.06em}
+.marquee-dot{width:4px;height:4px;border-radius:50%;background:var(--neon-blue)}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+section{padding:100px 40px;max-width:1200px;margin:0 auto}
+.section-label{font-family:var(--font-mono);font-size:.7rem;letter-spacing:.15em;color:var(--neon-blue);margin-bottom:12px;display:flex;align-items:center;gap:10px}
+.section-label::before{content:'';width:24px;height:1px;background:var(--neon-blue)}
+.section-title{font-family:var(--font-head);font-size:clamp(2rem,5vw,3.5rem);font-weight:800;line-height:1;letter-spacing:-.03em;margin-bottom:20px}
+.section-title .g{background:linear-gradient(135deg,var(--neon-blue),var(--neon-purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.section-sub{color:var(--text-muted);font-size:1rem;max-width:500px;line-height:1.7;margin-bottom:60px}
+
+.glass{background:var(--bg-card);border:1px solid var(--border-glow);border-radius:12px;backdrop-filter:blur(20px);transition:all .3s}
+.glass:hover{border-color:rgba(0,245,196,0.4);transform:translateY(-4px);box-shadow:0 16px 48px rgba(0,245,196,0.1)}
+
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
+.about-text p{color:var(--text-muted);line-height:1.8;margin-bottom:16px;font-size:1.05rem}
+.about-text p strong{color:var(--text-primary)}
+.about-stats{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:36px}
+.stat-card{padding:20px;border-radius:10px;background:rgba(0,245,196,0.05);border:1px solid var(--border-glow)}
+.stat-num{font-family:var(--font-head);font-size:2.2rem;font-weight:800;background:linear-gradient(135deg,var(--neon-blue),var(--neon-purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.stat-label{font-family:var(--font-mono);font-size:.7rem;letter-spacing:.08em;color:var(--text-muted);margin-top:4px}
+.about-visual{display:flex;flex-direction:column;gap:12px}
+.av-card{padding:20px 24px;border-radius:10px;background:rgba(123,92,255,0.05);border:1px solid var(--border-purple);display:flex;align-items:center;gap:14px;transition:all .3s}
+.av-card:hover{background:rgba(123,92,255,0.1);transform:translateX(8px)}
+.av-icon{font-size:1.5rem;width:42px;height:42px;display:flex;align-items:center;justify-content:center;border-radius:8px;background:rgba(123,92,255,0.1)}
+.av-title{font-weight:500;font-size:.95rem;margin-bottom:2px}
+.av-desc{font-size:.8rem;color:var(--text-muted)}
+
+.skills-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:16px}
+.skill-card{padding:24px 20px;border-radius:10px;background:var(--bg-card);border:1px solid var(--border-glow);transition:all .3s;cursor:default;position:relative;overflow:hidden}
+.skill-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(0,245,196,0.08),rgba(123,92,255,0.08));opacity:0;transition:opacity .3s}
+.skill-card:hover{border-color:rgba(0,245,196,0.5);transform:translateY(-6px);box-shadow:0 12px 40px rgba(0,245,196,0.12)}
+.skill-card:hover::before{opacity:1}
+.skill-icon{font-size:1.8rem;margin-bottom:12px}
+.skill-name{font-family:var(--font-head);font-weight:700;font-size:.95rem;margin-bottom:10px}
+.skill-bar{height:3px;background:rgba(255,255,255,0.08);border-radius:2px;overflow:hidden;margin-bottom:6px}
+.skill-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--neon-blue),var(--neon-purple));transform:scaleX(0);transform-origin:left;transition:transform 1s ease}
+.skill-pct{font-family:var(--font-mono);font-size:.65rem;color:var(--text-muted);text-align:right}
+
+.projects-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:24px}
+.project-card{border-radius:12px;overflow:hidden;background:var(--bg-card);border:1px solid var(--border-glow);transition:all .4s;position:relative}
+.project-card:hover{transform:translateY(-8px) scale(1.01);border-color:rgba(0,245,196,0.4);box-shadow:0 24px 60px rgba(0,245,196,0.12)}
+.project-banner{height:180px;position:relative;overflow:hidden}
+.project-banner-inner{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:3rem;transition:transform .4s}
+.project-card:hover .project-banner-inner{transform:scale(1.08)}
+.project-body{padding:24px}
+.project-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.tag{font-family:var(--font-mono);font-size:.65rem;letter-spacing:.06em;padding:3px 10px;border-radius:100px;background:rgba(0,245,196,0.08);border:1px solid rgba(0,245,196,0.2);color:var(--neon-blue)}
+.tag.purple{background:rgba(123,92,255,0.08);border-color:rgba(123,92,255,0.2);color:var(--neon-purple)}
+.tag.pink{background:rgba(255,60,110,0.08);border-color:rgba(255,60,110,0.2);color:var(--neon-pink)}
+.project-name{font-family:var(--font-head);font-weight:700;font-size:1.15rem;margin-bottom:8px}
+.project-desc{font-size:.88rem;color:var(--text-muted);line-height:1.6;margin-bottom:20px}
+.project-links{display:flex;gap:10px}
+.proj-btn{flex:1;padding:8px;text-align:center;font-family:var(--font-mono);font-size:.7rem;letter-spacing:.06em;border-radius:6px;text-decoration:none;transition:all .25s;display:block}
+.proj-btn.gh{border:1px solid rgba(255,255,255,0.12);color:var(--text-muted)}
+.proj-btn.gh:hover{border-color:var(--neon-blue);color:var(--neon-blue)}
+.proj-btn.live{background:linear-gradient(135deg,var(--neon-blue),var(--neon-purple));color:#fff}
+.proj-btn.live:hover{box-shadow:0 4px 20px rgba(0,245,196,0.4);transform:translateY(-1px)}
+
+.github-wrap{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.gh-card{padding:28px;border-radius:12px;background:var(--bg-card);border:1px solid var(--border-glow)}
+.gh-stat{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,0.04)}
+.gh-stat:last-child{border-bottom:none}
+.gh-stat-icon{font-size:1.2rem;width:36px;height:36px;display:flex;align-items:center;justify-content:center;border-radius:8px;background:rgba(0,245,196,0.08)}
+.gh-stat-val{font-family:var(--font-head);font-weight:700;font-size:1.3rem}
+.gh-stat-label{font-size:.8rem;color:var(--text-muted)}
+.lang-bar{margin-top:16px}
+.lang-item{margin-bottom:12px}
+.lang-head{display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:.72rem;color:var(--text-muted);margin-bottom:4px}
+.lang-fill-wrap{height:3px;background:rgba(255,255,255,0.06);border-radius:2px;overflow:hidden}
+.lang-fill{height:100%;border-radius:2px}
+.contrib-grid{display:grid;grid-template-columns:repeat(52,1fr);gap:2px;margin-top:12px}
+.contrib-day{aspect-ratio:1;border-radius:2px;background:rgba(255,255,255,0.04)}
+.contrib-day.l1{background:rgba(0,245,196,0.2)}
+.contrib-day.l2{background:rgba(0,245,196,0.4)}
+.contrib-day.l3{background:rgba(0,245,196,0.7)}
+.contrib-day.l4{background:var(--neon-blue)}
+
+.timeline{position:relative;padding-left:40px}
+.timeline::before{content:'';position:absolute;left:8px;top:0;bottom:0;width:1px;background:linear-gradient(to bottom,var(--neon-blue),var(--neon-purple),transparent)}
+.tl-item{position:relative;margin-bottom:44px}
+.tl-dot{position:absolute;left:-36px;top:6px;width:14px;height:14px;border-radius:50%;background:var(--neon-blue);box-shadow:0 0 12px var(--neon-blue);border:2px solid var(--bg-black)}
+.tl-year{font-family:var(--font-mono);font-size:.7rem;letter-spacing:.1em;color:var(--neon-blue);margin-bottom:4px}
+.tl-title{font-family:var(--font-head);font-weight:700;font-size:1.15rem;margin-bottom:8px}
+.tl-desc{font-size:.9rem;color:var(--text-muted);line-height:1.7}
+
+#terminal-section{background:rgba(0,5,10,0.6);border-top:1px solid var(--border-glow);border-bottom:1px solid var(--border-glow);padding:80px 40px}
+.terminal-container{max-width:800px;margin:0 auto}
+.terminal-window{border-radius:12px;overflow:hidden;background:#0d1117;border:1px solid rgba(0,245,196,0.2);box-shadow:0 24px 80px rgba(0,0,0,0.5)}
+.terminal-bar{display:flex;align-items:center;gap:8px;padding:12px 16px;background:#161b22;border-bottom:1px solid rgba(255,255,255,0.06)}
+.t-dot{width:12px;height:12px;border-radius:50%}
+.t-dot.red{background:#ff5f57}
+.t-dot.yellow{background:#febc2e}
+.t-dot.green{background:#28c840}
+.terminal-title{font-family:var(--font-mono);font-size:.72rem;color:var(--text-muted);margin-left:auto;margin-right:24px}
+.terminal-body{padding:24px;min-height:320px;max-height:420px;overflow-y:auto;font-family:var(--font-mono);font-size:.82rem;line-height:1.8}
+.t-line{display:flex;gap:8px;margin-bottom:2px;opacity:0;animation:tlineshow .1s ease forwards}
+@keyframes tlineshow{to{opacity:1}}
+.t-prompt{color:var(--neon-green)}
+.t-cmd{color:#fff}
+.t-output{color:var(--text-muted)}
+.t-output .h{color:var(--neon-blue)}
+.t-output .p{color:var(--neon-purple)}
+.t-output .g{color:var(--neon-green)}
+.terminal-input-row{display:flex;align-items:center;gap:8px;padding:0 24px 24px;font-family:var(--font-mono);font-size:.82rem}
+.t-input-prompt{color:var(--neon-green);white-space:nowrap}
+#t-input{background:transparent;border:none;outline:none;color:#fff;font-family:var(--font-mono);font-size:.82rem;flex:1;caret-color:var(--neon-green)}
+
+#chat-section{padding:80px 40px}
+.chat-container{max-width:700px;margin:0 auto}
+.chat-window{border-radius:12px;overflow:hidden;background:var(--bg-card);border:1px solid var(--border-purple);box-shadow:0 0 60px rgba(123,92,255,0.08)}
+.chat-bar{display:flex;align-items:center;gap:12px;padding:16px 20px;background:rgba(123,92,255,0.05);border-bottom:1px solid var(--border-purple)}
+.ai-dot{width:8px;height:8px;border-radius:50%;background:var(--neon-green);animation:pulse 2s infinite}
+.chat-name{font-family:var(--font-mono);font-size:.8rem;color:var(--neon-purple)}
+.chat-status{font-family:var(--font-mono);font-size:.65rem;color:var(--text-muted);margin-left:auto}
+.chat-messages{padding:20px;min-height:300px;max-height:400px;overflow-y:auto;display:flex;flex-direction:column;gap:14px}
+.msg{max-width:80%;padding:12px 16px;border-radius:10px;font-size:.88rem;line-height:1.6;animation:msgpop .25s ease}
+@keyframes msgpop{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.msg.ai{background:rgba(123,92,255,0.08);border:1px solid rgba(123,92,255,0.15);color:var(--text-primary);align-self:flex-start;border-radius:2px 10px 10px 10px}
+.msg.user{background:linear-gradient(135deg,rgba(0,245,196,0.15),rgba(123,92,255,0.15));border:1px solid rgba(0,245,196,0.2);color:var(--text-primary);align-self:flex-end;border-radius:10px 2px 10px 10px}
+.chat-input-row{display:flex;gap:8px;padding:12px 16px;border-top:1px solid var(--border-purple)}
+#chat-input{flex:1;background:rgba(255,255,255,0.04);border:1px solid var(--border-purple);border-radius:8px;padding:10px 14px;color:var(--text-primary);font-family:var(--font-body);font-size:.88rem;outline:none}
+#chat-input:focus{border-color:var(--neon-purple)}
+#chat-send{padding:10px 20px;background:linear-gradient(135deg,var(--neon-blue),var(--neon-purple));color:#fff;font-family:var(--font-mono);font-size:.75rem;border:none;border-radius:8px;cursor:pointer;transition:all .2s}
+#chat-send:hover{transform:translateY(-1px);box-shadow:0 4px 20px rgba(123,92,255,0.4)}
+.ai-typing{display:flex;gap:4px;align-items:center;padding:8px 4px}
+.ai-typing span{width:6px;height:6px;border-radius:50%;background:var(--neon-purple);animation:typingdot .8s ease infinite}
+.ai-typing span:nth-child(2){animation-delay:.15s}
+.ai-typing span:nth-child(3){animation-delay:.3s}
+@keyframes typingdot{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px}
+.contact-info p{color:var(--text-muted);line-height:1.8;margin-bottom:32px}
+.contact-links{display:flex;flex-direction:column;gap:12px}
+.contact-link{display:flex;align-items:center;gap:14px;padding:14px 18px;border-radius:10px;background:var(--bg-card);border:1px solid var(--border-glow);text-decoration:none;color:var(--text-muted);transition:all .3s;font-size:.9rem}
+.contact-link:hover{border-color:var(--neon-blue);color:var(--neon-blue);transform:translateX(6px)}
+.contact-link-icon{font-size:1.2rem;width:36px;height:36px;display:flex;align-items:center;justify-content:center;border-radius:8px;background:rgba(0,245,196,0.08)}
+.contact-form{display:flex;flex-direction:column;gap:14px}
+.form-group{display:flex;flex-direction:column;gap:6px}
+.form-group label{font-family:var(--font-mono);font-size:.7rem;letter-spacing:.08em;color:var(--text-muted)}
+.form-input{background:var(--bg-card);border:1px solid var(--border-glow);border-radius:8px;padding:12px 16px;color:var(--text-primary);font-family:var(--font-body);font-size:.9rem;outline:none;transition:border-color .2s;resize:none}
+.form-input:focus{border-color:var(--neon-blue)}
+.form-input::placeholder{color:rgba(107,128,153,.5)}
+.form-submit{padding:14px;background:linear-gradient(135deg,var(--neon-blue),var(--neon-purple));color:#fff;font-family:var(--font-mono);font-size:.8rem;letter-spacing:.06em;border:none;border-radius:8px;cursor:pointer;transition:all .3s}
+.form-submit:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,245,196,0.35)}
+
+.achievements-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:16px}
+.ach-card{padding:24px 16px;border-radius:10px;background:var(--bg-card);border:1px solid var(--border-glow);text-align:center;transition:all .3s}
+.ach-card:hover{border-color:rgba(0,245,196,0.4);transform:translateY(-4px)}
+.ach-num{font-family:var(--font-head);font-size:2.4rem;font-weight:800;background:linear-gradient(135deg,var(--neon-blue),var(--neon-purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;display:block}
+.ach-icon{font-size:1.6rem;margin-bottom:8px;display:block}
+.ach-label{font-family:var(--font-mono);font-size:.68rem;letter-spacing:.08em;color:var(--text-muted);margin-top:4px}
+
+.testi-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px}
+.testi-card{padding:28px;border-radius:12px;background:var(--bg-card);border:1px solid var(--border-glow);transition:all .3s}
+.testi-card:hover{border-color:rgba(123,92,255,0.4);box-shadow:0 8px 40px rgba(123,92,255,0.08)}
+.testi-quote{font-size:.95rem;color:var(--text-muted);line-height:1.7;margin-bottom:20px;position:relative;padding-left:20px}
+.testi-quote::before{content:'"';position:absolute;left:0;top:-4px;font-size:2rem;color:var(--neon-purple);font-family:var(--font-head);line-height:1}
+.testi-author{display:flex;align-items:center;gap:12px}
+.testi-avatar{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:.9rem;flex-shrink:0}
+.testi-name{font-weight:500;font-size:.9rem}
+.testi-role{font-size:.75rem;color:var(--text-muted)}
+.stars{color:#fbbf24;font-size:.8rem;margin-bottom:12px}
+
+.blog-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px}
+.blog-card{border-radius:12px;overflow:hidden;background:var(--bg-card);border:1px solid var(--border-glow);transition:all .3s}
+.blog-card:hover{border-color:rgba(0,245,196,0.4);transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,245,196,0.08)}
+.blog-banner{height:120px;display:flex;align-items:center;justify-content:center;font-size:2.5rem;font-weight:800;font-family:var(--font-head);letter-spacing:-.04em;position:relative;overflow:hidden}
+.blog-body{padding:20px}
+.blog-cat{font-family:var(--font-mono);font-size:.65rem;letter-spacing:.1em;color:var(--neon-blue);margin-bottom:8px}
+.blog-title{font-family:var(--font-head);font-weight:700;font-size:1rem;line-height:1.3;margin-bottom:8px}
+.blog-date{font-family:var(--font-mono);font-size:.68rem;color:var(--text-muted)}
+
+footer{border-top:1px solid var(--border-glow);padding:40px;display:flex;align-items:center;justify-content:space-between;max-width:1200px;margin:0 auto}
+.footer-logo{font-family:var(--font-head);font-weight:800;font-size:1.2rem;background:linear-gradient(135deg,var(--neon-blue),var(--neon-purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.footer-copy{font-family:var(--font-mono);font-size:.72rem;color:var(--text-muted)}
+
+.reveal{opacity:0;transform:translateY(32px);transition:opacity .7s ease,transform .7s ease}
+.reveal.visible{opacity:1;transform:none}
+
+#cmd-palette{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(10px);z-index:99998;display:none;align-items:flex-start;justify-content:center;padding-top:15vh}
+#cmd-palette.open{display:flex}
+.cmd-box{width:560px;max-width:90vw;border-radius:12px;background:#0d1117;border:1px solid rgba(0,245,196,0.3);overflow:hidden;box-shadow:0 40px 100px rgba(0,0,0,.8)}
+.cmd-input-row{display:flex;align-items:center;gap:12px;padding:16px 20px;border-bottom:1px solid rgba(255,255,255,0.06)}
+.cmd-slash{font-family:var(--font-mono);font-size:1rem;color:var(--neon-blue)}
+#cmd-input{flex:1;background:transparent;border:none;outline:none;color:#fff;font-family:var(--font-mono);font-size:.9rem;caret-color:var(--neon-blue)}
+.cmd-items{padding:8px}
+.cmd-item{display:flex;align-items:center;gap:14px;padding:10px 14px;border-radius:8px;cursor:pointer;transition:background .15s;font-size:.88rem}
+.cmd-item:hover,.cmd-item.active{background:rgba(0,245,196,0.08)}
+.cmd-item-icon{width:32px;height:32px;border-radius:6px;background:rgba(0,245,196,0.08);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0}
+.cmd-item-label{color:var(--text-primary)}
+.cmd-item-sub{font-family:var(--font-mono);font-size:.7rem;color:var(--text-muted)}
+.cmd-hint{padding:10px 20px;border-top:1px solid rgba(255,255,255,0.04);font-family:var(--font-mono);font-size:.65rem;color:var(--text-muted);display:flex;gap:20px}
+.cmd-hint kbd{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:4px;padding:2px 6px}
+
+.float-icons{position:absolute;inset:0;pointer-events:none;z-index:0}
+.fi{position:absolute;font-size:1.5rem;opacity:.12;animation:fiFloat linear infinite}
+@keyframes fiFloat{0%{transform:translateY(0) rotate(0deg);opacity:.12}50%{opacity:.2}100%{transform:translateY(-30px) rotate(10deg);opacity:.12}}
+
+@media(max-width:768px){
+nav{padding:16px 20px}
+.nav-links{display:none}
+section{padding:60px 20px}
+.hero-content{text-align:center}
+.hero-buttons{justify-content:center}
+.hero-avatar{display:none}
+.about-grid,.contact-grid,.github-wrap{grid-template-columns:1fr}
+footer{flex-direction:column;gap:12px;text-align:center}
+}
+</style>
+</head>
+<body>
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+<div id="scroll-progress"></div>
+
+<div id="loader">
+  <div class="loader-logo">WaizX</div>
+  <div class="loader-bar-wrap"><div class="loader-bar"></div></div>
+  <div class="loader-text" id="loader-text">INITIALIZING SYSTEM...</div>
+</div>
+
+<div id="cmd-palette">
+  <div class="cmd-box">
+    <div class="cmd-input-row">
+      <span class="cmd-slash">/</span>
+      <input id="cmd-input" placeholder="Type a command or search..." autocomplete="off">
+    </div>
+    <div class="cmd-items">
+      <div class="cmd-item" onclick="scrollToSection('about')"><div class="cmd-item-icon">👤</div><div><div class="cmd-item-label">About</div><div class="cmd-item-sub">Who is Muhammad Waiz Khan</div></div></div>
+      <div class="cmd-item" onclick="scrollToSection('skills')"><div class="cmd-item-icon">⚡</div><div><div class="cmd-item-label">Skills</div><div class="cmd-item-sub">Tech stack & expertise</div></div></div>
+      <div class="cmd-item" onclick="scrollToSection('projects')"><div class="cmd-item-icon">🚀</div><div><div class="cmd-item-label">Projects</div><div class="cmd-item-sub">View all projects</div></div></div>
+      <div class="cmd-item" onclick="scrollToSection('terminal')"><div class="cmd-item-icon">💻</div><div><div class="cmd-item-label">Terminal</div><div class="cmd-item-sub">Interactive developer terminal</div></div></div>
+      <div class="cmd-item" onclick="scrollToSection('contact')"><div class="cmd-item-icon">📬</div><div><div class="cmd-item-label">Contact</div><div class="cmd-item-sub">Get in touch</div></div></div>
+      <div class="cmd-item" onclick="window.open('https://github.com/waizkktom123','_blank')"><div class="cmd-item-icon">🐱</div><div><div class="cmd-item-label">GitHub</div><div class="cmd-item-sub">github.com/waizkktom123</div></div></div>
+    </div>
+    <div class="cmd-hint"><span><kbd>↑↓</kbd> navigate</span><span><kbd>↵</kbd> select</span><span><kbd>esc</kbd> close</span><span><kbd>⌘K</kbd> open</span></div>
+  </div>
+</div>
+
+<nav>
+  <a href="#hero" class="nav-logo">WaizX</a>
+  <ul class="nav-links">
+    <li><a href="#about">about</a></li>
+    <li><a href="#skills">skills</a></li>
+    <li><a href="#projects">projects</a></li>
+    <li><a href="#terminal">terminal</a></li>
+    <li><a href="#github">github</a></li>
+    <li><a href="#contact">contact</a></li>
+  </ul>
+  <a href="#contact" class="nav-cta">hire me</a>
+</nav>
+
+<section id="hero" style="max-width:100%;padding:0">
+  <canvas id="particles-canvas"></canvas>
+  <div class="hero-grid-bg"></div>
+  <div class="hero-glow-1"></div>
+  <div class="hero-glow-2"></div>
+  <div class="float-icons" id="float-icons"></div>
+  <div style="max-width:1200px;margin:0 auto;padding:120px 40px 80px;position:relative;z-index:1;width:100%;display:grid;grid-template-columns:1fr auto;align-items:center;gap:48px">
+    <div class="hero-content">
+      <div class="hero-badge">🟢 &nbsp;AVAILABLE FOR WORK</div>
+      <h1 class="hero-name">
+        <span>Muhammad</span><br>
+        <span class="accent">Waiz Khan</span>
+      </h1>
+      <div class="hero-roles"><span id="typed-role"></span><span id="typed-cursor" style="color:var(--neon-blue);animation:pulse 1s infinite">|</span></div>
+      <p class="hero-tagline">Building scalable, modern digital experiences at the intersection of full-stack development, mobile engineering, and cutting-edge software architecture.</p>
+      <div class="hero-buttons">
+        <a href="#projects" class="btn-primary">View Projects</a>
+        <a href="https://github.com/waizkktom123" target="_blank" class="btn-outline">GitHub Profile</a>
+        <a href="#contact" class="btn-outline">Contact Me</a>
+        <button class="btn-outline" onclick="openCmdPalette()" style="cursor:none;font-family:var(--font-mono);font-size:.8rem;letter-spacing:.06em">⌘ Command</button>
+      </div>
+    </div>
+    <div class="hero-avatar">
+      <div class="avatar-ring">
+        <div class="avatar-inner">💻</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="marquee-wrap">
+  <div class="marquee-track" id="marquee"></div>
+</div>
+
+<section id="about">
+  <div class="reveal">
+    <div class="section-label">01 — ABOUT</div>
+    <h2 class="section-title">Crafting <span class="g">Tomorrow's</span><br>Software Today</h2>
+    <p class="section-sub">A developer who refuses to build ordinary things.</p>
+  </div>
+  <div class="about-grid reveal">
+    <div class="about-text">
+      <p>I'm <strong>Muhammad Waiz Khan</strong> — a full-stack developer and software engineer based in Pakistan, engineering at the cutting edge of what's possible. I don't just write code; I architect experiences that challenge conventions.</p>
+      <p>My journey spans the full breadth of modern software — from pixel-perfect <strong>React & Next.js frontends</strong> to robust <strong>Node.js & Express backends</strong>, and from cross-platform <strong>Flutter mobile apps</strong> to enterprise <strong>.NET & C# systems</strong>.</p>
+      <p>I'm driven by a deep passion for <strong>clean architecture, performance, and developer experience</strong>. Whether it's crafting a real-time web app, building a Flutter UI, or designing a scalable REST API — I bring obsessive attention to detail to everything I create.</p>
+      <p>Currently exploring the intersection of <strong>modern web frameworks, mobile development, and cloud deployments</strong>. The future is written in code — and I'm here to write it.</p>
+      <div class="about-stats">
+        <div class="stat-card"><div class="stat-num" data-target="15">0</div><div class="stat-label">PROJECTS BUILT</div></div>
+        <div class="stat-card"><div class="stat-num" data-target="16">0</div><div class="stat-label">TECHNOLOGIES</div></div>
+        <div class="stat-card"><div class="stat-num" data-target="3">0</div><div class="stat-label">REPOSITORIES</div></div>
+        <div class="stat-card"><div class="stat-num" data-target="100">0</div><div class="stat-label">GITHUB COMMITS</div></div>
+      </div>
+    </div>
+    <div class="about-visual">
+      <div class="av-card">
+        <div class="av-icon">⚛️</div>
+        <div><div class="av-title">React & Next.js</div><div class="av-desc">Modern, interactive UIs with React, Next.js & TypeScript</div></div>
+      </div>
+      <div class="av-card">
+        <div class="av-icon">🟢</div>
+        <div><div class="av-title">Node.js & Express</div><div class="av-desc">Robust backend systems, REST APIs, and microservices</div></div>
+      </div>
+      <div class="av-card">
+        <div class="av-icon">📱</div>
+        <div><div class="av-title">Flutter & Dart</div><div class="av-desc">Cross-platform mobile apps for iOS and Android</div></div>
+      </div>
+      <div class="av-card">
+        <div class="av-icon">🔷</div>
+        <div><div class="av-title">.NET & C#</div><div class="av-desc">Enterprise-grade backend systems and desktop apps</div></div>
+      </div>
+      <div class="av-card">
+        <div class="av-icon">🗄️</div>
+        <div><div class="av-title">Databases & DevOps</div><div class="av-desc">MongoDB, MySQL, SQL Server, Docker & Git workflows</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="reveal">
+    <div class="section-label">02 — SKILLS</div>
+    <h2 class="section-title">Tech <span class="g">Arsenal</span></h2>
+    <p class="section-sub">Every tool in my stack, battle-tested on real projects.</p>
+  </div>
+  <div class="skills-grid reveal" id="skills-grid"></div>
+</section>
+
+<section id="projects">
+  <div class="reveal">
+    <div class="section-label">03 — PROJECTS</div>
+    <h2 class="section-title">Selected <span class="g">Works</span></h2>
+    <p class="section-sub">Real applications. Real impact. Built with intention.</p>
+  </div>
+  <div class="projects-grid reveal" id="projects-grid"></div>
+</section>
+
+<section id="github">
+  <div class="reveal">
+    <div class="section-label">04 — GITHUB</div>
+    <h2 class="section-title">Open <span class="g">Source</span></h2>
+    <p class="section-sub">github.com/waizkktom123 — commit by commit, building in public.</p>
+  </div>
+  <div class="github-wrap reveal">
+    <div class="gh-card">
+      <h3 style="font-family:var(--font-head);font-weight:700;margin-bottom:20px;font-size:1.1rem">Profile Stats</h3>
+      <div class="gh-stat"><div class="gh-stat-icon">📦</div><div><div class="gh-stat-val">3</div><div class="gh-stat-label">Repositories</div></div></div>
+      <div class="gh-stat"><div class="gh-stat-icon">👥</div><div><div class="gh-stat-val">Growing</div><div class="gh-stat-label">Followers</div></div></div>
+      <div class="gh-stat"><div class="gh-stat-icon">⭐</div><div><div class="gh-stat-val">1</div><div class="gh-stat-label">Stars Earned</div></div></div>
+      <div class="gh-stat"><div class="gh-stat-icon">✅</div><div><div class="gh-stat-val">Active</div><div class="gh-stat-label">Contribution Streak</div></div></div>
+      <div class="gh-stat"><div class="gh-stat-icon">📡</div><div><div class="gh-stat-val">Instagram</div><div class="gh-stat-label">@m.waiz.khan</div></div></div>
+    </div>
+    <div class="gh-card">
+      <h3 style="font-family:var(--font-head);font-weight:700;margin-bottom:20px;font-size:1.1rem">Languages Used</h3>
+      <div class="lang-bar">
+        <div class="lang-item"><div class="lang-head"><span>JavaScript</span><span>35%</span></div><div class="lang-fill-wrap"><div class="lang-fill" style="width:35%;background:linear-gradient(90deg,#f7df1e,#ff9500)"></div></div></div>
+        <div class="lang-item"><div class="lang-head"><span>PHP</span><span>25%</span></div><div class="lang-fill-wrap"><div class="lang-fill" style="width:25%;background:linear-gradient(90deg,#777bb4,#4f5d95)"></div></div></div>
+        <div class="lang-item"><div class="lang-head"><span>HTML/CSS</span><span>20%</span></div><div class="lang-fill-wrap"><div class="lang-fill" style="width:20%;background:linear-gradient(90deg,#e34c26,#264de4)"></div></div></div>
+        <div class="lang-item"><div class="lang-head"><span>C# / .NET</span><span>12%</span></div><div class="lang-fill-wrap"><div class="lang-fill" style="width:12%;background:linear-gradient(90deg,#239120,#512bd4)"></div></div></div>
+        <div class="lang-item"><div class="lang-head"><span>Python & Other</span><span>8%</span></div><div class="lang-fill-wrap"><div class="lang-fill" style="width:8%;background:linear-gradient(90deg,#3776ab,#ffd43b)"></div></div></div>
+      </div>
+      <h3 style="font-family:var(--font-head);font-weight:700;margin:24px 0 12px;font-size:1rem">Contribution Activity</h3>
+      <div class="contrib-grid" id="contrib-grid"></div>
+    </div>
+  </div>
+</section>
+
+<section id="timeline">
+  <div class="reveal">
+    <div class="section-label">05 — JOURNEY</div>
+    <h2 class="section-title">The <span class="g">Origin Story</span></h2>
+    <p class="section-sub">Every line of code has a story behind it.</p>
+  </div>
+  <div class="timeline reveal">
+    <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">2021</div><div class="tl-title">The First Line</div><div class="tl-desc">Wrote my first HTML page and realised the web could be sculpted from text. Fell instantly in love with the idea of building things people can see and touch through a screen.</div></div>
+    <div class="tl-item"><div class="tl-dot" style="background:var(--neon-purple);box-shadow:0 0 12px var(--neon-purple)"></div><div class="tl-year">2022</div><div class="tl-title">JavaScript & React Deep Dive</div><div class="tl-desc">Mastered vanilla JS and discovered React. Built component-based UIs, learned state management, and shipped first interactive web applications with real users.</div></div>
+    <div class="tl-item"><div class="tl-dot" style="background:var(--neon-pink);box-shadow:0 0 12px var(--neon-pink)"></div><div class="tl-year">2022–23</div><div class="tl-title">Full Stack Awakening</div><div class="tl-desc">Added Node.js, Express, and PHP to the arsenal. Connected databases (MongoDB, MySQL), built REST APIs, and launched first production full-stack applications.</div></div>
+    <div class="tl-item"><div class="tl-dot" style="background:var(--neon-green);box-shadow:0 0 12px var(--neon-green)"></div><div class="tl-year">2023</div><div class="tl-title">Mobile & Enterprise</div><div class="tl-desc">Ventured into Flutter and Dart for cross-platform mobile development. Simultaneously dived into .NET and C# for enterprise backend systems — becoming truly full-stack.</div></div>
+    <div class="tl-item"><div class="tl-dot" style="background:#fbbf24;box-shadow:0 0 12px #fbbf24"></div><div class="tl-year">2024</div><div class="tl-title">Next.js & TypeScript</div><div class="tl-desc">Levelled up frontend skills with Next.js, TypeScript, and Docker. Learned modern DevOps workflows, containerisation, and cloud deployment strategies.</div></div>
+    <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">2025+</div><div class="tl-title">The Future</div><div class="tl-desc">Pushing deeper into scalable architectures, AI integrations, and production-grade applications. Building toward software that leaves a mark on the world.</div></div>
+  </div>
+</section>
+
+<section id="achievements" style="background:rgba(0,245,196,0.02);max-width:100%;padding:80px 40px;border-top:1px solid var(--border-glow);border-bottom:1px solid var(--border-glow)">
+  <div style="max-width:1200px;margin:0 auto">
+    <div class="reveal" style="text-align:center;margin-bottom:48px">
+      <div class="section-label" style="justify-content:center">06 — ACHIEVEMENTS</div>
+      <h2 class="section-title" style="text-align:center">By The <span class="g">Numbers</span></h2>
+    </div>
+    <div class="achievements-grid reveal">
+      <div class="ach-card"><span class="ach-icon">🚀</span><span class="ach-num" data-target="15">0</span><div class="ach-label">PROJECTS BUILT</div></div>
+      <div class="ach-card"><span class="ach-icon">⚡</span><span class="ach-num" data-target="16">0</span><div class="ach-label">TECHNOLOGIES</div></div>
+      <div class="ach-card"><span class="ach-icon">📱</span><span class="ach-num" data-target="3">0</span><div class="ach-label">MOBILE APPS</div></div>
+      <div class="ach-card"><span class="ach-icon">🗄️</span><span class="ach-num" data-target="3">0</span><div class="ach-label">DATABASES USED</div></div>
+      <div class="ach-card"><span class="ach-icon">🔷</span><span class="ach-num" data-target="2">0</span><div class="ach-label">.NET PROJECTS</div></div>
+      <div class="ach-card"><span class="ach-icon">☁️</span><span class="ach-num" data-target="5">0</span><div class="ach-label">DEPLOYMENTS</div></div>
+    </div>
+  </div>
+</section>
+
+<div id="terminal-section">
+  <div class="terminal-container">
+    <div class="reveal" style="text-align:center;margin-bottom:36px">
+      <div class="section-label" style="justify-content:center">07 — TERMINAL</div>
+      <h2 class="section-title" style="text-align:center">Interactive <span class="g">Console</span></h2>
+      <p style="color:var(--text-muted);font-size:.95rem;margin-top:8px">Type <code style="background:rgba(0,245,196,.1);padding:2px 8px;border-radius:4px;font-family:var(--font-mono);font-size:.8rem">help</code> to see available commands</p>
+    </div>
+    <div class="reveal terminal-window">
+      <div class="terminal-bar">
+        <div class="t-dot red"></div><div class="t-dot yellow"></div><div class="t-dot green"></div>
+        <div class="terminal-title">waiz@dev ~ bash</div>
+      </div>
+      <div class="terminal-body" id="terminal-body"></div>
+      <div class="terminal-input-row">
+        <span class="t-input-prompt">waiz@dev:~$</span>
+        <input id="t-input" autocomplete="off" placeholder="type a command...">
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="chat-section">
+  <div style="text-align:center;margin-bottom:36px" class="reveal">
+    <div class="section-label" style="justify-content:center">08 — AI ASSISTANT</div>
+    <h2 class="section-title" style="text-align:center">Ask <span class="g">Waiz AI</span></h2>
+    <p style="color:var(--text-muted);font-size:.95rem;margin-top:8px">Powered by Claude — ask me anything about my work</p>
+  </div>
+  <div class="chat-container reveal">
+    <div class="chat-window">
+      <div class="chat-bar">
+        <div class="ai-dot"></div>
+        <span class="chat-name">Waiz AI Assistant</span>
+        <span class="chat-status">online · claude-powered</span>
+      </div>
+      <div class="chat-messages" id="chat-messages">
+        <div class="msg ai">👋 Hi! I'm Waiz AI — Muhammad Waiz Khan's intelligent assistant. Ask me about his skills, projects, tech stack, or how to get in touch. I'm here to help!</div>
+      </div>
+      <div class="chat-input-row">
+        <input id="chat-input" placeholder="Ask about skills, projects, contact..." />
+        <button id="chat-send">Send →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section id="testimonials">
+  <div class="reveal">
+    <div class="section-label">09 — TESTIMONIALS</div>
+    <h2 class="section-title">What People <span class="g">Say</span></h2>
+  </div>
+  <div class="testi-grid reveal" id="testi-grid"></div>
+</section>
+
+<section id="blog">
+  <div class="reveal">
+    <div class="section-label">10 — BLOG</div>
+    <h2 class="section-title">Thoughts & <span class="g">Writings</span></h2>
+    <p class="section-sub">Deep dives into React, Node.js, Flutter, .NET, and the future of software.</p>
+  </div>
+  <div class="blog-grid reveal" id="blog-grid"></div>
+</section>
+
+<section id="contact">
+  <div class="reveal">
+    <div class="section-label">11 — CONTACT</div>
+    <h2 class="section-title">Let's <span class="g">Build</span> Something</h2>
+    <p class="section-sub">Got a project idea? Let's turn it into reality.</p>
+  </div>
+  <div class="contact-grid reveal">
+    <div class="contact-info">
+      <p>Whether you have a startup idea, need a full-stack developer, want to collaborate on a mobile or web project, or just want to connect — my inbox is open.</p>
+      <div class="contact-links">
+        <a class="contact-link" href="https://github.com/waizkktom123" target="_blank"><div class="contact-link-icon">🐱</div>github.com/waizkktom123</a>
+        <a class="contact-link" href="https://instagram.com/m.waiz.khan" target="_blank"><div class="contact-link-icon">📸</div>instagram.com/m.waiz.khan</a>
+        <a class="contact-link" href="#"><div class="contact-link-icon">💼</div>LinkedIn (coming soon)</a>
+        <a class="contact-link" href="#"><div class="contact-link-icon">🐦</div>Twitter / X (coming soon)</a>
+      </div>
+    </div>
+    <div class="contact-form">
+      <div class="form-group"><label>YOUR NAME</label><input class="form-input" type="text" placeholder="John Doe"></div>
+      <div class="form-group"><label>EMAIL ADDRESS</label><input class="form-input" type="email" placeholder="hello@example.com"></div>
+      <div class="form-group"><label>MESSAGE</label><textarea class="form-input" rows="5" placeholder="Tell me about your project..."></textarea></div>
+      <button class="form-submit" onclick="handleFormSubmit(this)">Send Message →</button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">WaizX</div>
+  <div class="footer-copy">© 2025 Muhammad Waiz Khan — Building the future, one commit at a time</div>
+  <div style="font-family:var(--font-mono);font-size:.65rem;color:var(--text-muted)">Made with ❤️ & ☕</div>
+</footer>
+
+<script>
+const SKILLS=[
+  {icon:'⚛️',name:'React.js',pct:88},{icon:'🟨',name:'JavaScript',pct:85},
+  {icon:'🔷',name:'TypeScript',pct:78},{icon:'⬛',name:'Next.js',pct:80},
+  {icon:'🎨',name:'HTML & CSS',pct:90},{icon:'🅱️',name:'Bootstrap',pct:85},
+  {icon:'🟢',name:'Node.js',pct:82},{icon:'🚂',name:'Express.js',pct:80},
+  {icon:'🐍',name:'Python',pct:70},{icon:'🐘',name:'PHP',pct:75},
+  {icon:'🔷',name:'C# & .NET',pct:72},{icon:'📱',name:'Flutter',pct:76},
+  {icon:'🍃',name:'MongoDB',pct:78},{icon:'🐬',name:'MySQL',pct:80},
+  {icon:'🪟',name:'SQL Server',pct:72},{icon:'🐳',name:'Docker',pct:65}
+];
+
+const PROJECTS=[
+  {emoji:'🦠',gradient:'linear-gradient(135deg,#0d1a2b,#1a2d3c)',name:'COVID-19 Tracker',desc:'A real-time COVID-19 data dashboard built with JavaScript, fetching live stats via public APIs. Features interactive charts, country-wise filtering, and responsive design.',tags:['JavaScript','REST API','Charts','HTML/CSS'],tagClass:['','purple','','pink'],gh:'https://github.com/waizkktom123/WaizBaloch',live:'#'},
+  {emoji:'🌐',gradient:'linear-gradient(135deg,#1a0d3c,#2d1a5c)',name:'Full Stack Web App',desc:'A full-stack PHP & JavaScript web application with server-side rendering, dynamic content, and database integration. Clean architecture and responsive UI.',tags:['PHP','JavaScript','MySQL','CSS'],tagClass:['','purple','','pink'],gh:'https://github.com/waizkktom123/Waiz',live:'#'},
+  {emoji:'📱',gradient:'linear-gradient(135deg,#0d2137,#1a3a5c)',name:'Flutter Mobile App',desc:'A cross-platform Flutter application built with Dart for iOS and Android. Features smooth animations, clean UI components, and native device integration.',tags:['Flutter','Dart','Mobile','UI/UX'],tagClass:['','purple','','pink'],gh:'https://github.com/waizkktom123',live:'#'},
+  {emoji:'🔷',gradient:'linear-gradient(135deg,#0d1a0d,#1a2d1a)',name:'.NET Enterprise App',desc:'Enterprise-grade application built with C# and .NET framework. Robust backend logic, SQL Server database integration, and clean separation of concerns.',tags:['C#','.NET','SQL Server','Architecture'],tagClass:['','purple','','pink'],gh:'https://github.com/waizkktom123',live:'#'},
+  {emoji:'🚀',gradient:'linear-gradient(135deg,#1a1a0d,#2d2d1a)',name:'Next.js Portfolio',desc:'A blazing-fast portfolio website built with Next.js and TypeScript. Server-side rendering, dynamic routing, and seamless deployment on Vercel.',tags:['Next.js','TypeScript','Tailwind','Vercel'],tagClass:['','purple','','pink'],gh:'https://github.com/waizkktom123',live:'#'},
+  {emoji:'🗄️',gradient:'linear-gradient(135deg,#1a0d20,#2d1a3c)',name:'REST API Backend',desc:'Scalable RESTful API built with Node.js and Express. Features JWT authentication, MongoDB integration, input validation, and structured error handling.',tags:['Node.js','Express','MongoDB','JWT'],tagClass:['','purple','','pink'],gh:'https://github.com/waizkktom123',live:'#'},
+];
+
+const TESTIMONIALS=[
+  {quote:"Waiz built our web platform with remarkable speed and attention to detail. His React skills and clean code architecture made our project a success.",name:"Ahmed S.",role:"Startup Founder",initials:"AS",color:"#00f5c4"},
+  {quote:"One of the most versatile developers I've worked with. Waiz handled both frontend React and backend Node.js seamlessly — a true full-stack engineer.",name:"Fatima R.",role:"Tech Lead",initials:"FR",color:"#7b5cff"},
+  {quote:"Waiz delivered a Flutter mobile app that exceeded our expectations. Smooth animations, great UX, and clean Dart code. Highly recommended.",name:"Omar K.",role:"Product Manager",initials:"OK",color:"#ff3c6e"},
+];
+
+const BLOGS=[
+  {gradient:'linear-gradient(135deg,rgba(0,245,196,.12),rgba(123,92,255,.12))',label:'REACT / NEXT.JS',title:'Why Next.js + TypeScript is the Gold Standard for Modern Web Apps',date:'Dec 2024',header:'⚛️'},
+  {gradient:'linear-gradient(135deg,rgba(123,92,255,.12),rgba(255,60,110,.12))',label:'FLUTTER',title:'Flutter vs React Native in 2025: A Developer\'s Honest Take',date:'Nov 2024',header:'📱'},
+  {gradient:'linear-gradient(135deg,rgba(0,245,196,.08),rgba(57,255,20,.08))',label:'BACKEND',title:'Building Scalable REST APIs with Node.js, Express & MongoDB',date:'Oct 2024',header:'🟢'},
+];
+
+const MARQUEE_ITEMS=['React.js','Node.js','Next.js','TypeScript','Flutter','Express.js','MongoDB','MySQL','.NET','C#','PHP','Docker','Git','Full Stack Dev','Mobile Dev','REST APIs'];
+
+const T_COMMANDS={
+  help:{output:`<span class="h">Available commands:</span>
+  <span class="g">about</span>      — About Muhammad Waiz Khan
+  <span class="g">skills</span>     — View tech stack
+  <span class="g">projects</span>   — List projects
+  <span class="g">github</span>     — GitHub stats
+  <span class="g">contact</span>    — Get in touch
+  <span class="g">clear</span>      — Clear terminal
+  <span class="g">matrix</span>     — 🕶️ secret mode`},
+  about:{output:`<span class="h">Muhammad Waiz Khan</span> — Full Stack Developer
+<span class="p">Location:</span>    Pakistan 🇵🇰
+<span class="p">Focus:</span>       React | Node.js | Flutter | .NET | PHP
+<span class="p">GitHub:</span>      github.com/waizkktom123
+<span class="p">Instagram:</span>   @m.waiz.khan
+<span class="p">Status:</span>      <span class="g">Available for work ✓</span>`},
+  skills:{output:`<span class="h">Tech Stack:</span>
+<span class="p">Frontend:</span>   React ████████████ 88% | Next.js ██████████ 80%
+<span class="p">Backend:</span>    Node.js ██████████ 82% | PHP ██████████ 75%
+<span class="p">Mobile:</span>     Flutter ██████████ 76% | Dart ██████████ 76%
+<span class="p">Enterprise:</span> C# / .NET ██████████ 72% | SQL Server ██████████ 72%
+<span class="p">Databases:</span>  MongoDB | MySQL | SQL Server
+<span class="p">DevOps:</span>     Docker | Git | GitHub | Linux | VS Code`},
+  projects:{output:`<span class="h">Projects (${PROJECTS.length} total):</span>
+${PROJECTS.map((p,i)=>`<span class="g">${i+1}.</span> ${p.name} — ${p.tags.join(', ')}`).join('\n')}`},
+  github:{output:`<span class="h">GitHub: github.com/waizkktom123</span>
+<span class="p">Repos:</span>         3 (growing)
+<span class="p">Top Language:</span>  JavaScript (35%)
+<span class="p">Followers:</span>     Growing
+<span class="p">Instagram:</span>     @m.waiz.khan`},
+  contact:{output:`<span class="h">Get in touch:</span>
+<span class="p">GitHub:</span>      github.com/waizkktom123
+<span class="p">Instagram:</span>   @m.waiz.khan
+<span class="p">Status:</span>      <span class="g">Open to opportunities ✓</span>`},
+  matrix:{output:`<span style="color:#39ff14">Initiating matrix mode... 🕶️\nFollow the white rabbit.\nThe simulation is real.\nCode is everything.</span>`},
+  clear:{output:null}
+};
+
+function getAIResponse(msg){
+  const m=msg.toLowerCase();
+  if(['skills','python','react','node','flutter','php','net','dart','tech','stack','languages','mongodb','mysql','docker','express','next'].some(k=>m.includes(k)))
+    return `Waiz is skilled in **React.js** (88%), **JavaScript** (85%), **Next.js** (80%), **Node.js** (82%), **Flutter/Dart** (76%), **PHP** (75%), **C#/.NET** (72%), and more. He covers the full spectrum — frontend, backend, mobile, and enterprise systems. Want details on a specific area?`;
+  if(['project','built','work','app','application','covid','web'].some(k=>m.includes(k)))
+    return `Waiz has built ${PROJECTS.length}+ projects including:\n• COVID-19 Tracker (JS + REST API)\n• Full Stack Web App (PHP + MySQL)\n• Flutter Mobile App\n• .NET Enterprise Application\n• Next.js Portfolio\n• Node.js REST API Backend\nAll on GitHub: github.com/waizkktom123`;
+  if(['contact','email','hire','reach','get in touch','available','work','job','instagram'].some(k=>m.includes(k)))
+    return `You can reach Waiz at:\n🐱 github.com/waizkktom123\n📸 instagram.com/m.waiz.khan\n\nHe's currently **available for freelance & full-time opportunities**!`;
+  if(['github','repo','code','commit','star'].some(k=>m.includes(k)))
+    return `Waiz's GitHub (github.com/waizkktom123) has 3 repositories with projects spanning JavaScript, PHP, and more. He's actively building in public and growing his open-source presence.`;
+  if(['who','about','background','experience','journey','story'].some(k=>m.includes(k)))
+    return `Muhammad Waiz Khan is a passionate full-stack developer from Pakistan. He codes across the entire stack — React/Next.js frontends, Node.js/PHP/Express backends, Flutter mobile apps, and .NET enterprise systems. Driven by a love for clean code and great user experiences.`;
+  return `Great question! Waiz is a full-stack developer from Pakistan specialising in React, Node.js, Flutter, and .NET. Try asking about his **skills**, **projects**, **GitHub**, or how to **contact** him. 🚀`;
+}
+
+document.addEventListener('DOMContentLoaded',()=>{
+  const loaderTexts=['INITIALIZING SYSTEM...','LOADING MODULES...','COMPILING SKILLS...','RENDERING EXPERIENCE...','SYSTEM READY'];
+  let lt=0;
+  const ltEl=document.getElementById('loader-text');
+  const ltInt=setInterval(()=>{lt++;if(lt<loaderTexts.length)ltEl.textContent=loaderTexts[lt];},400);
+  setTimeout(()=>{clearInterval(ltInt);document.getElementById('loader').classList.add('hidden');},2200);
+
+  const cur=document.getElementById('cursor'),ring=document.getElementById('cursor-ring');
+  let cx=0,cy=0,rx=0,ry=0;
+  document.addEventListener('mousemove',e=>{cx=e.clientX;cy=e.clientY;cur.style.left=cx+'px';cur.style.top=cy+'px';});
+  function animRing(){rx+=(cx-rx)*.12;ry+=(cy-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animRing);}
+  animRing();
+
+  window.addEventListener('scroll',()=>{
+    const p=window.scrollY/(document.body.scrollHeight-window.innerHeight)*100;
+    document.getElementById('scroll-progress').style.width=p+'%';
+  });
+
+  initParticles();
+
+  const mEl=document.getElementById('marquee');
+  const items=[...MARQUEE_ITEMS,...MARQUEE_ITEMS].map(t=>`<div class="marquee-item"><div class="marquee-dot"></div>${t}</div>`).join('');
+  mEl.innerHTML=items+items;
+
+  const sg=document.getElementById('skills-grid');
+  SKILLS.forEach(s=>{
+    sg.innerHTML+=`<div class="skill-card"><div class="skill-icon">${s.icon}</div><div class="skill-name">${s.name}</div><div class="skill-bar"><div class="skill-fill" data-pct="${s.pct/100}"></div></div><div class="skill-pct">${s.pct}%</div></div>`;
+  });
+
+  const pg=document.getElementById('projects-grid');
+  PROJECTS.forEach(p=>{
+    const tags=p.tags.map((t,i)=>`<span class="tag ${p.tagClass[i]}">${t}</span>`).join('');
+    pg.innerHTML+=`<div class="project-card"><div class="project-banner"><div class="project-banner-inner" style="background:${p.gradient}">${p.emoji}</div></div><div class="project-body"><div class="project-tags">${tags}</div><div class="project-name">${p.name}</div><div class="project-desc">${p.desc}</div><div class="project-links"><a class="proj-btn gh" href="${p.gh}" target="_blank">GitHub</a><a class="proj-btn live" href="${p.live}">Live Demo</a></div></div></div>`;
+  });
+
+  const cg=document.getElementById('contrib-grid');
+  for(let i=0;i<364;i++){
+    const r=Math.random();
+    const cl=r>.9?'l4':r>.75?'l3':r>.55?'l2':r>.35?'l1':'';
+    cg.innerHTML+=`<div class="contrib-day ${cl}"></div>`;
+  }
+
+  const tg=document.getElementById('testi-grid');
+  TESTIMONIALS.forEach(t=>{
+    tg.innerHTML+=`<div class="testi-card"><div class="stars">★★★★★</div><div class="testi-quote">${t.quote}</div><div class="testi-author"><div class="testi-avatar" style="background:${t.color}22;color:${t.color};border:1px solid ${t.color}44">${t.initials}</div><div><div class="testi-name">${t.name}</div><div class="testi-role">${t.role}</div></div></div></div>`;
+  });
+
+  const bg=document.getElementById('blog-grid');
+  BLOGS.forEach(b=>{
+    bg.innerHTML+=`<div class="blog-card"><div class="blog-banner" style="background:${b.gradient}">${b.header}</div><div class="blog-body"><div class="blog-cat">${b.label}</div><div class="blog-title">${b.title}</div><div class="blog-date">${b.date}</div></div></div>`;
+  });
+
+  const FI=['⚛️','🟢','📱','🔷','🐳','🗄️','⚡','🚀','💡','🌐'];
+  const fi=document.getElementById('float-icons');
+  FI.forEach(icon=>{
+    const d=document.createElement('div');
+    d.className='fi';d.textContent=icon;
+    d.style.left=(10+Math.random()*80)+'%';
+    d.style.top=(10+Math.random()*80)+'%';
+    d.style.animationDuration=(6+Math.random()*8)+'s';
+    d.style.animationDelay=(Math.random()*4)+'s';
+    fi.appendChild(d);
+  });
+
+  const observer=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        e.target.classList.add('visible');
+        e.target.querySelectorAll('[data-target]').forEach(el=>{
+          const target=+el.dataset.target;
+          let cur=0;const step=Math.max(target/60,0.1);
+          const int=setInterval(()=>{cur+=step;if(cur>=target){cur=target;clearInterval(int);}el.textContent=Math.floor(cur)+(target>10?'+':'');},16);
+        });
+        e.target.querySelectorAll('.skill-fill').forEach(el=>{
+          el.style.transform=`scaleX(${el.dataset.pct})`;
+        });
+      }
+    });
+  },{threshold:.1});
+  document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+
+  const roles=['Full Stack Developer','React & Next.js Engineer','Node.js & Express Dev','Flutter App Builder','.NET & C# Developer','Software Engineer'];
+  let ri=0,ci=0,deleting=false;
+  const typed=document.getElementById('typed-role');
+  function typeLoop(){
+    const role=roles[ri];
+    if(!deleting){typed.textContent=role.slice(0,++ci);if(ci===role.length){deleting=true;setTimeout(typeLoop,1800);return;}}
+    else{typed.textContent=role.slice(0,--ci);if(ci===0){deleting=false;ri=(ri+1)%roles.length;}}
+    setTimeout(typeLoop,deleting?50:80);
+  }
+  setTimeout(typeLoop,2400);
+
+  const tb=document.getElementById('terminal-body');
+  const ti=document.getElementById('t-input');
+  let history=[],hIdx=-1;
+
+  function tPrint(prompt,cmd,output){
+    if(prompt)tb.innerHTML+=`<div class="t-line"><span class="t-prompt">waiz@dev:~$</span><span class="t-cmd"> ${cmd||''}</span></div>`;
+    if(output!==null&&output!==undefined)tb.innerHTML+=`<div class="t-line"><div class="t-output">${output}</div></div>`;
+    tb.scrollTop=tb.scrollHeight;
+  }
+
+  setTimeout(()=>{tPrint(false,null,`<span class="h">WaizX Terminal v2.0</span> — Muhammad Waiz Khan's dev console\nType <span class="g">help</span> to see available commands.`);},2500);
+
+  ti.addEventListener('keydown',e=>{
+    if(e.key==='Enter'){
+      const cmd=ti.value.trim().toLowerCase();
+      if(!cmd)return;
+      history.unshift(cmd);hIdx=-1;ti.value='';
+      if(cmd==='clear'){tb.innerHTML='';return;}
+      const r=T_COMMANDS[cmd];
+      if(r){tPrint(true,cmd,r.output);}
+      else{tPrint(true,cmd,`<span style="color:#ff6b6b">bash: ${cmd}: command not found. Type <span class="g">help</span> for commands.</span>`);}
+    }
+    if(e.key==='ArrowUp'){e.preventDefault();hIdx=Math.min(hIdx+1,history.length-1);ti.value=history[hIdx]||'';}
+    if(e.key==='ArrowDown'){e.preventDefault();hIdx=Math.max(hIdx-1,-1);ti.value=hIdx===-1?'':history[hIdx];}
+  });
+
+  const chatMsgs=document.getElementById('chat-messages');
+  const chatIn=document.getElementById('chat-input');
+  const chatSend=document.getElementById('chat-send');
+
+  function addMsg(text,role){
+    const d=document.createElement('div');
+    d.className=`msg ${role}`;d.textContent=text;
+    chatMsgs.appendChild(d);chatMsgs.scrollTop=chatMsgs.scrollHeight;
+  }
+
+  function showTyping(){
+    const d=document.createElement('div');
+    d.className='msg ai';d.id='typing-indicator';
+    d.innerHTML='<div class="ai-typing"><span></span><span></span><span></span></div>';
+    chatMsgs.appendChild(d);chatMsgs.scrollTop=chatMsgs.scrollHeight;
+    return d;
+  }
+
+  async function sendChat(){
+    const txt=chatIn.value.trim();
+    if(!txt)return;
+    chatIn.value='';
+    addMsg(txt,'user');
+    const typing=showTyping();
+    try{
+      const res=await fetch('https://api.anthropic.com/v1/messages',{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({
+          model:'claude-sonnet-4-20250514',
+          max_tokens:300,
+          system:`You are Waiz AI, Muhammad Waiz Khan's portfolio assistant. Be concise, friendly, and professional. Muhammad Waiz Khan is a Full Stack Developer from Pakistan specialising in React.js, Next.js, TypeScript, Node.js, Express.js, PHP, C#, .NET, Flutter, Dart, MongoDB, MySQL, SQL Server, and Docker. His GitHub is github.com/waizkktom123. Instagram: @m.waiz.khan. He is available for freelance and full-time work. Keep responses under 80 words, conversational and helpful.`,
+          messages:[{role:'user',content:txt}]
+        })
+      });
+      const data=await res.json();
+      typing.remove();
+      const reply=data.content?.[0]?.text||getAIResponse(txt);
+      addMsg(reply,'ai');
+    }catch{
+      typing.remove();
+      addMsg(getAIResponse(txt),'ai');
+    }
+  }
+
+  chatSend.addEventListener('click',sendChat);
+  chatIn.addEventListener('keydown',e=>{if(e.key==='Enter')sendChat();});
+
+  window.openCmdPalette=()=>{document.getElementById('cmd-palette').classList.add('open');document.getElementById('cmd-input').focus();};
+  document.getElementById('cmd-palette').addEventListener('click',e=>{if(e.target===document.getElementById('cmd-palette'))document.getElementById('cmd-palette').classList.remove('open');});
+  document.getElementById('cmd-input').addEventListener('keydown',e=>{if(e.key==='Escape')document.getElementById('cmd-palette').classList.remove('open');});
+  document.addEventListener('keydown',e=>{if((e.metaKey||e.ctrlKey)&&e.key==='k'){e.preventDefault();openCmdPalette();}});
+  window.scrollToSection=(id)=>{document.getElementById('cmd-palette').classList.remove('open');document.getElementById(id)?.scrollIntoView({behavior:'smooth'});};
+  window.handleFormSubmit=(btn)=>{btn.textContent='Message Sent! ✓';btn.style.background='linear-gradient(135deg,#10b981,#059669)';setTimeout(()=>{btn.textContent='Send Message →';btn.style.background='';},3000);};
+});
+
+function initParticles(){
+  const canvas=document.getElementById('particles-canvas');
+  const ctx=canvas.getContext('2d');
+  let W,H,pts=[];
+  function resize(){W=canvas.width=canvas.offsetWidth;H=canvas.height=canvas.offsetHeight;}
+  resize();
+  window.addEventListener('resize',resize);
+  for(let i=0;i<80;i++)pts.push({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.4,vy:(Math.random()-.5)*.4,r:Math.random()*1.5+.5});
+  let mx=W/2,my=H/2;
+  canvas.addEventListener('mousemove',e=>{mx=e.offsetX;my=e.offsetY;});
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    pts.forEach(p=>{
+      p.x+=p.vx;p.y+=p.vy;
+      if(p.x<0||p.x>W)p.vx*=-1;
+      if(p.y<0||p.y>H)p.vy*=-1;
+      ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle='rgba(0,245,196,0.6)';ctx.fill();
+      pts.forEach(q=>{
+        const dx=p.x-q.x,dy=p.y-q.y,d=Math.sqrt(dx*dx+dy*dy);
+        if(d<120){ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(q.x,q.y);ctx.strokeStyle=`rgba(0,245,196,${.12*(1-d/120)})`;ctx.lineWidth=.5;ctx.stroke();}
+      });
+      const dx=p.x-mx,dy=p.y-my,d=Math.sqrt(dx*dx+dy*dy);
+      if(d<150){ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(mx,my);ctx.strokeStyle=`rgba(123,92,255,${.2*(1-d/150)})`;ctx.lineWidth=.5;ctx.stroke();}
+    });
+    requestAnimationFrame(draw);
+  }
+  draw();
+}
+</script>
+</body>
+</html>
